@@ -6,6 +6,8 @@ Description: calculate attenuation and absorption efficiencies
 
 Use: python att_calc.py material thickness (mm) energy (keV)
 
+Output: results output to terminal...
+
 @author: kalkm1
 """
 
