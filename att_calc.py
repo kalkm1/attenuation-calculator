@@ -53,9 +53,60 @@ def _run(material, x, ephot):
         df = pd.read_csv('Cu_absorptioncoe_all.csv') #NIST XCOM
 
     else:
-        print('material not included...')
-        return
+        if material == 'V' or material == 'v':
+            density = 5.8 # g/cm^3
+            df = np.loadtxt('V_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
 
+        if material == 'Zn' or material == 'zn':
+            density = 7.13 # g/cm^3
+            df = np.loadtxt('Zn_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Nb' or material == 'nb':
+            density = 8.6 # g/cm^3
+            df = np.loadtxt('Nb_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Pd' or material == 'pd':
+            density = 11.9 # g/cm^3
+            df = np.loadtxt('Pd_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Ge' or material == 'ge':
+            density = 5.323 # g/cm^3
+            df = np.loadtxt('Ge_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Cr' or material == 'cr':
+            density = 7.19 # g/cm^3
+            df = np.loadtxt('Cr_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Au' or material == 'au':
+            density = 19.32 # g/cm^3
+            df = np.loadtxt('Au_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Mg' or material == 'mg':
+            density = 1.738 # g/cm^3
+            df = np.loadtxt('Mg_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Mn' or material == 'mn':
+            density = 7.43 # g/cm^3
+            df = np.loadtxt('Mn_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+            
 
     # thickness to cm
     ephot = float(ephot)
