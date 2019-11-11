@@ -15,8 +15,8 @@ import numpy as np
 import pandas as pd
 import sys
 from scipy.interpolate import interp1d
-import warnings
-warnings.simplefilter("ignore")
+#import warnings
+#warnings.simplefilter("ignore")
 
 
 def _run(material, x, ephot):
@@ -104,6 +104,18 @@ def _run(material, x, ephot):
         if material == 'Mn' or material == 'mn':
             density = 7.43 # g/cm^3
             df = np.loadtxt('materials/Mn_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'CZT' or material == 'czt':
+            density = 5.8 # g/cm^3
+            df = np.loadtxt('materials/CZT_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Pb' or material == 'pb':
+            density = 11.34 # g/cm^3
+            df = np.loadtxt('materials/Pb_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
             df[:,0] = df[:,0] * 1000 # convert MeV to keV
             df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
             
