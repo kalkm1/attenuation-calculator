@@ -118,6 +118,12 @@ def _run(material, x, ephot):
             df = np.loadtxt('materials/Pb_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
             df[:,0] = df[:,0] * 1000 # convert MeV to keV
             df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'Perspex' or material == 'perspex':
+            density = 1.19 # g/cm^3
+            df = np.loadtxt('materials/Perspex_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
             
 
     # thickness to cm
