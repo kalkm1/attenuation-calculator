@@ -119,11 +119,24 @@ def _run(material, x, ephot):
             df[:,0] = df[:,0] * 1000 # convert MeV to keV
             df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
 
+        if material == 'Pt' or material == 'pt':
+            density = 21.45 # g/cm^3
+            df = np.loadtxt('materials/Pt_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
         if material == 'Perspex' or material == 'perspex':
             density = 1.19 # g/cm^3
             df = np.loadtxt('materials/Perspex_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
             df[:,0] = df[:,0] * 1000 # convert MeV to keV
             df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+
+        if material == 'air' or material == 'air':
+            density = 0.001225 # g/cm^3
+            df = np.loadtxt('materials/air_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
+            df[:,0] = df[:,0] * 1000 # convert MeV to keV
+            df = pd.DataFrame(df,columns=['keV', 'photoelectric effect','tot(cm2/g)'])
+        
             
 
     # thickness to cm
