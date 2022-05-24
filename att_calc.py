@@ -15,11 +15,10 @@ import numpy as np
 import pandas as pd
 import sys
 from scipy.interpolate import interp1d
-#import warnings
-#warnings.simplefilter("ignore")
 
 
-def _run(material, x, ephot):
+
+def main(material, x, ephot):
 
     # material
     if material == 'CdTe' or material == 'cdte':
@@ -136,8 +135,8 @@ def _run(material, x, ephot):
             df = np.loadtxt('materials/air_absorptioncoe_all.txt', skiprows=2) # NIST XCOM
             df[:,0] = df[:,0] * 1000 # convert MeV to keV
             df = pd.DataFrame(df,columns=['keV', 'photoelectric effect','tot(cm2/g)'])
-        
-            
+
+
 
     # thickness to cm
     ephot = float(ephot)
@@ -177,4 +176,4 @@ if __name__ == "__main__":
     material = (sys.argv[1])
     x = (sys.argv[2])
     ephot = (sys.argv[3])
-    _run(material, x, ephot)
+    main(material, x, ephot)
