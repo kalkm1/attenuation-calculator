@@ -22,8 +22,18 @@ def get_data(material):
         df = np.loadtxt('materials/%s_absorptioncoe_all.txt' % material, skiprows=2)
         df[:,0] = df[:,0] * 1000 # convert MeV to keV
         df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
-
     return df
+
+def inter_coeffs(en, coeffs, den, ephot):
+    f = interp1d(np.log10(en),np.log10(coeffs*den))
+    u = f(np.log10(ephot)) # need to use log(x) not x
+    u = 10**u # convert log(y) to y
+    return u
+
+def get_l(u, x):
+    l = (1/u)*10 # to mm
+    att = (1 - np.exp(-u*x))*100
+    return l, att
 
 def main(material, x, ephot):
 
@@ -33,33 +43,21 @@ def main(material, x, ephot):
     # get density of material
     density = dens.density(material)
 
-    # thickness to cm
-    ephot = float(ephot)
-    x = float(x)
-    x = x/10
+    # interpolate coefficients
+    u_tot = inter_coeffs(df['keV'], df['tot(cm2/g)'], density, ephot)
 
-    # get attenuation coefficient
-    f = interp1d(np.log10(df['keV']),np.log10(df['tot(cm2/g)']*density))
-    u = f(np.log10(ephot)) # need to use log(x) not x
-    u = 10**u # convert log(y) to y
+    # get mean path length
+    l_att, att = get_l(u_tot, x/10)
 
-    # get info
-    l_att = (1/u)*10 #mm
-    att = (1 - np.exp(-u*x))*100
-    u_tot = u
+    # interpolate coefficients
+    u_pe = inter_coeffs(df['keV'], df['photoelectric effect'], density, ephot)
 
-    # get absorption coefficient
-    f = interp1d(np.log10(df['keV']),np.log10(df['photoelectric effect']*density))
-    u = f(np.log10(ephot)) # need to use log(x) not x
-    u = 10**u # convert log(y) to y
+    # get mean path length
+    l_ab, ab = get_l(u_pe, x/10)
 
-    # get info
-    l_ab = (1/u)*10 #mm
-    ab = (1 - np.exp(-u*x))*100
-
-    print('material: '+str(material)+ ', thickness: '+str(x*10)+'mm, energy: '+str(ephot)+'keV')
+    print('material: '+str(material)+ ', thickness: '+str(x)+'mm, energy: '+str(ephot)+'keV')
     print('total linear attenuation coefficient (cm^-1): '+str(u_tot))
-    print('total linear absorption coefficient (cm^-1): '+str(u))
+    print('total linear absorption coefficient (cm^-1): '+str(u_pe))
     print('mean path length until attenuation (mm): '+str(l_att))
     print('mean path length until absorbed (mm): '+str(l_ab))
     print('attenuation (%): '+str(att))
@@ -67,4 +65,4 @@ def main(material, x, ephot):
     print('transmission (%): '+str(100-att))
 
 if __name__ == "__main__":
-    main(sys.argv[1].lower(), sys.argv[2], sys.argv[3])
+    main(sys.argv[1].lower(), float(sys.argv[2]), float(sys.argv[3]))
