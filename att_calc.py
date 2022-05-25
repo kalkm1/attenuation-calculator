@@ -2,21 +2,18 @@
 """
 Created on Fri Aug 17 09:59:52 2018
 
-Description: calculate attenuation and absorption efficiencies
+Description: calculate attenuation and absorption efficiencies through material
 
 Use: python att_calc.py material thickness(mm) energy(keV)
 Output: results output to terminal...
 
 @author: kalkm1
 """
-
 import numpy as np
 import pandas as pd
 import sys
 from scipy.interpolate import interp1d
-
 import densities as dens
-
 
 def get_data(material):
     try:
@@ -27,7 +24,6 @@ def get_data(material):
         df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
 
     return df
-
 
 def main(material, x, ephot):
 
@@ -70,9 +66,5 @@ def main(material, x, ephot):
     print('absorption (%): '+str(ab))
     print('transmission (%): '+str(100-att))
 
-
 if __name__ == "__main__":
-    material = (sys.argv[1].lower())
-    x = (sys.argv[2])
-    ephot = (sys.argv[3])
-    main(material, x, ephot)
+    main(sys.argv[1].lower(), sys.argv[2], sys.argv[3])
