@@ -60,6 +60,7 @@ def main(material, x, ephot):
     # get mean path length
     l_ab, ab = get_l(u_pe, x/10)
 
+    # output
     print('material: '+str(material)+', thickness: '+str(x)+'mm, energy: '+str(ephot)+'keV')
     print('total linear attenuation coefficient (cm^-1): '+str(u_tot))
     print('total linear absorption coefficient (cm^-1): '+str(u_pe))
