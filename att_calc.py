@@ -15,25 +15,30 @@ import sys
 from scipy.interpolate import interp1d
 import densities as dens
 
+
 def get_data(material):
     try:
         df = pd.read_csv('materials/%s_absorptioncoe_all.csv' % material)
     except FileNotFoundError:
         df = np.loadtxt('materials/%s_absorptioncoe_all.txt' % material, skiprows=2)
-        df[:,0] = df[:,0] * 1000 # convert MeV to keV
-        df = pd.DataFrame(df,columns=['keV', 'coherent','incoherent','photoelectric effect','tot(cm2/g)'])
+        df[:, 0] = df[:, 0] * 1000  # convert MeV to keV
+        df = pd.DataFrame(df, columns=['keV', 'coherent', 'incoherent', 'photoelectric effect',
+                                       'tot(cm2/g)'])
     return df
 
+
 def inter_coeffs(en, coeffs, den, ephot):
-    f = interp1d(np.log10(en),np.log10(coeffs*den))
-    u = f(np.log10(ephot)) # need to use log(x) not x
-    u = 10**u # convert log(y) to y
+    f = interp1d(np.log10(en), np.log10(coeffs*den))
+    u = f(np.log10(ephot))  # need to use log(x) not x
+    u = 10**u  # convert log(y) to y
     return u
 
+
 def get_l(u, x):
-    l = (1/u)*10 # to mm
+    ll = (1/u)*10  # to mm
     att = (1 - np.exp(-u*x))*100
-    return l, att
+    return ll, att
+
 
 def main(material, x, ephot):
 
@@ -55,7 +60,7 @@ def main(material, x, ephot):
     # get mean path length
     l_ab, ab = get_l(u_pe, x/10)
 
-    print('material: '+str(material)+ ', thickness: '+str(x)+'mm, energy: '+str(ephot)+'keV')
+    print('material: '+str(material)+', thickness: '+str(x)+'mm, energy: '+str(ephot)+'keV')
     print('total linear attenuation coefficient (cm^-1): '+str(u_tot))
     print('total linear absorption coefficient (cm^-1): '+str(u_pe))
     print('mean path length until attenuation (mm): '+str(l_att))
@@ -63,6 +68,7 @@ def main(material, x, ephot):
     print('attenuation (%): '+str(att))
     print('absorption (%): '+str(ab))
     print('transmission (%): '+str(100-att))
+
 
 if __name__ == "__main__":
     main(sys.argv[1].lower(), float(sys.argv[2]), float(sys.argv[3]))
