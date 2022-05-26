@@ -20,7 +20,8 @@ def density(material):
            'pb': 11.34,
            'pt': 21.45,
            'perspex': 1.19,
-           'air': 0.001225
+           'air': 0.001225,
+           'ag': 10.49
            }
 
     return den[material]
