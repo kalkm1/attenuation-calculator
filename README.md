@@ -5,4 +5,4 @@ with a selected amount of energy (in keV), through a selected distance (in mm) o
 
 The attenuation coefficients of the materials as a function of energy are required in a .txt file - taken from the NIST XCOM database. The density must be added to the function in densities.py.
 
-Use: python att_calc.py material thickness [in mm] energy [in keV]
+Use from cmd line: python att_calc.py material thickness [in mm] energy [in keV]
