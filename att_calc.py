@@ -7,7 +7,7 @@ Description: calculate attenuation and absorption efficiencies through material
 Use: python att_calc.py material thickness(mm) energy(keV)
 Output: results output to terminal...
 
-@author: kalkm1
+@author: Kjell Koch-Mehrin
 """
 import numpy as np
 import pandas as pd
@@ -22,8 +22,11 @@ def get_data(material):
     except FileNotFoundError:
         df = np.loadtxt('materials/%s_absorptioncoe_all.txt' % material, skiprows=2)
         df[:, 0] = df[:, 0] * 1000  # convert MeV to keV
-        df = pd.DataFrame(df, columns=['keV', 'coherent', 'incoherent', 'photoelectric effect',
-                                       'tot(cm2/g)'])
+        try:
+            df = pd.DataFrame(df, columns=['keV', 'coherent', 'incoherent', 'photoelectric effect', 'tot(cm2/g)'])
+        except:
+            df = pd.DataFrame(df, columns=['keV', 'tot(cm2/g)', 'photoelectric effect'])  # for air, water, ice
+
     return df
 
 
