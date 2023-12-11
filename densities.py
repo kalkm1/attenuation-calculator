@@ -23,7 +23,9 @@ def density(material):
            'air': 0.001225,
            'ag': 10.49,
            'ice': 0.917,
-           'water': 0.9998
+           'water': 0.9998,
+           'si': 2.3290,
+           'sic': 3.21
            }
 
     return den[material]
