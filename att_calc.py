@@ -14,6 +14,8 @@ import pandas as pd
 import sys
 from scipy.interpolate import interp1d
 import densities as dens
+import argparse
+from IPython import embed
 
 
 def get_data(material):
@@ -75,4 +77,26 @@ def main(material, x, ephot):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1].lower(), float(sys.argv[2]), float(sys.argv[3]))
+    
+    parser = argparse.ArgumentParser(prog='att_calc',
+                                     description='Calculate the attenuation and transmission through a material at a certain energy')
+
+    parser.add_argument('material', nargs=1,
+                        type=str,
+                        help='Material',)
+
+    parser.add_argument('-t','--thickness', nargs=1,
+                        default=[1.0],
+                        type=float,
+                        help='Thickness of the material in [mm] (default: %(default)s)')
+    
+    parser.add_argument('-e','--energy', nargs=1,
+                        default=[10.0],
+                        type=float,
+                        help='Photon/X-ray energy in [keV] (default: %(default)s)')
+
+    args = sys.argv[1:]
+    
+    pargs = parser.parse_args(args)
+
+    main(pargs.material[0].lower(), pargs.thickness[0], pargs.energy[0])

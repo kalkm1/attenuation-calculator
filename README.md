@@ -10,5 +10,4 @@ The density for each new material must be added to the function in densities.py.
 
 
 ## Use:
-From cmd line, ignoring [square brackets]:
-python att_calc.py material [not case-sensitive] thickness [mm] energy [keV]
+python att_calc.py -h
